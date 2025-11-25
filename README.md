@@ -1,32 +1,46 @@
-
+Readme.md
 # Smoothcomp AWS Data Engineering Project
-Welcome to my project portfolio.  
-This site showcases the architecture, AWS integrations, data models, and insights.
+## Purpose
+This project details the process ofbuilding an automated ETL pipeline to analyze jiu-jitsu event and match data from https://smoothcomp.com/ to populate Power BI dashboards.  
 
-This project is a public facing repository to showcase the process for creating a data pipeline to process matches on Smoothcomp.com over the previous 5+ years.  Thousands of web pages are scraped and parsed into datasets and saved into parquet files in AWS S3 buckets.  This data is delivered with AWS Athena and feed into a Power BI Dashboard.
+The dashboard attempts to answer questions such as 
+* How many athletes compete in Jiu-Jitsu?
+* How does the popularity compare between styles, age groups, and skill levels?
+* How many competitions do athletes participate in? 
+* Does additional competitions improve performance?
 
+### Languages Used
+- Python
+- SQL
+- M
+- DAX
 
-## 🔧 Technologies Used
-- AWS Fargate and Docker
-    - This 
+### Technologies Used
+- Docker
+- AWS Fargate
 - AWS S3 
-- AWS Athena + Glue 
-- DuckDB 
-- Power BI 
-- Python 
-    - Playwright
-    - BeautifulSoup
-    - Requests
-- Parquet 
+- AWS Athena + Glue
+- Power BI
+-  Github Actions
+	
+## Constructing ETL Process
+### **E**xtract
+The two types of web pages downloaded in this project are events and all matches within each event.
 
-## 📊 Architecture Diagram
-![Architecture](images/architecture.png)
+#### Events Web pages
+The past events search page allows filtering results using the inputs on the page or using URL query parameters.  Results for each downloaded page will be limited to 
+* Only in the USA
+* Only jiu-jitsu style events
+* Only 1 month at a time for organizational purposes
 
-## 📁 Data Model
-![Data Model](images/data_model.png)
+An example URL for the month of November 2025 is https://smoothcomp.com/en/events/past?countries=US&cg=1,3,4,7&startDate=2025-11-01&endDate=2025-11-30&page=1
+Months may contain more than 40 events, so multiple pages may be saved.  Each extracted page will be saved with the format ***{YYYYMM}_{Page_Number}.html***.
 
-## 📈 Power BI Report
-Download: [report.pbix](report.pbix)
+#### Matchlist Web Pages
+Each event has a distinct URL to the event, and every page of matches can be found from there. For example, event 12345 would have the first page of matches at https://smoothcomp.com/en/event/25853/schedule/matchlist?page=1
+Each extracted page will be saved with the format 
+***{YYYYMM}\_{Event_ID}\_{Page_Number}.html***.
 
-## 📄 Project Write-Up
-[Read more](pages/details.md)
+### **T**ransform
+
+
